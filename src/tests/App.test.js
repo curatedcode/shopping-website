@@ -1,4 +1,4 @@
-import { render, screen, waitForElementToBeRemoved } from "@testing-library/react"
+import { fireEvent, render, screen, waitForElementToBeRemoved } from "@testing-library/react"
 import App from "../App"
 
 it('fetches and renders data',async() => {
@@ -10,4 +10,17 @@ it('fetches and renders data',async() => {
   expect(screen.queryByText(/189/i)).toBeVisible()
   expect(screen.queryByText(/4.69/i)).toBeVisible()
   expect(screen.queryByAltText(/Fake Phone/i)).toBeVisible()
+})
+
+it('clicking on product brings you to that products page', async () => {
+  render(<App />)
+
+  fireEvent.click(screen.queryByText(/Fake Phone/i))
+
+  const allPictures = screen.getAllByRole('img', {name: /Fake Phone/i})
+  expect(allPictures.length).toBe(5)
+  allPictures.forEach(img => expect(img).toBeVisible())
+
+  const allPrices = screen.getAllByText(/189/i)
+  expect(allPrices.length).toBe(2)
 })
