@@ -6,12 +6,11 @@ function NavBar(){
     <>
     <nav>
       <ul>
-        <li>
+        <li className="title-font font-bold">
           <Link to="/">Shop-R-Us</Link>
         </li>
         <li>
           <Link to="/cart">{<AiOutlineShoppingCart />}Cart</Link>
-          {/* make sure to put text around any icon for accessability */}
         </li>
       </ul>
     </nav>
