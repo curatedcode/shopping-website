@@ -1,11 +1,21 @@
-import { useLocation } from "react-router-dom"
+import { useQuery } from "@tanstack/react-query"
+import axios from "axios"
+import { useParams } from "react-router-dom"
 import { v4 as uuidv4 } from 'uuid'
 
 function Product() {
   const date = new Date()
   const deliveryDate = `${date.getDay()} , ${date.getMonth() + date.getDate()}`
-  const location = useLocation()
-  const data = location.state
+  const params = useParams()
+  const { status, error, data } = useQuery([`product-${params.id}`],()=>{
+    return(
+      axios
+      .get(`https://dummyjson.com/products/${params.id}`)
+      .then(res => res.data)
+    )
+  })
+  if(status === 'loading') return <h1>Loading...</h1>
+  if(status === 'error') return <h1>{JSON.stringify(error)}</h1>
   return(
     <div>
       <div>
