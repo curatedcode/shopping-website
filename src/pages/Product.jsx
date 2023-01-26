@@ -58,7 +58,7 @@ function Product() {
         <span>{data.title}</span>
         <span className="flex">{stars}</span>
       </div>
-      <div className="grid grid-cols-2 text-xl border-b-2 border-gray-300 pb-2">
+      <div className="grid grid-cols-2 text-xl border-b-2 border-gray-300 pb-2 mb-2">
         <button className="row-start-2 place-self-center" name="slide-back" type="button" onClick={handleSlide}><IoArrowBack /></button>
         {data.images.map((img, index) => <img className={`${currentSlide === index ? 'col-span-full':'hidden'} transition-all duration-400 my-2`} src={img} alt={data.title} key={uuidv4()}></img>)}
         <button className="place-self-center" name="slide-forward" type="button" onClick={handleSlide}><IoArrowForward /></button>
@@ -71,10 +71,11 @@ function Product() {
         <span>{deliveryDate}</span>
       </div>
       <div>
-        <div>
-          <button name="increase-quantity" type="button" onClick={handleChange}>+</button>
-          <input name="quantity" type="number" value={quantity} onChange={handleChange} data-testid="quantity"></input>
-          <button name="decrease-quantity" type="button" onClick={handleChange}>-</button>
+        <div className="border-2 border-gray-300 rounded-lg shadow-lg shadow-gray-300 flex justify-evenly w-fit px-2 items-center">
+          <button className="mx-3" name="decrease-quantity" type="button" onClick={handleChange}>-</button>
+          <label className="border-l-2 border-gray-300 pl-1 mr-1" htmlFor="quantity">Qty:</label>
+          <input className="w-7 text-center border-r-2 border-gray-300 focus-within:outline-gray-500" name="quantity" type="number" value={quantity} onChange={handleChange} data-testid="quantity"></input>
+          <button className="mx-3" name="increase-quantity" type="button" onClick={handleChange}>+</button>
         </div>
         <button>Add to Cart</button>
       </div>
