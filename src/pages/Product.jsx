@@ -10,8 +10,12 @@ import colorReviewStars from "../components/colorReviewStars"
 function Product() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [stars, setStars] = useState([])
+  const daysOfWeek = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December']
   const date = new Date()
-  const deliveryDate = `${date.getDay()} , ${date.getMonth() + date.getDate()}`
+  const day = daysOfWeek[date.getDay()]
+  const month = months[date.getMonth()]
+  const deliveryDate = `${day}, ${month} ${date.getDate()}`
   const params = useParams()
   const [ quantity, setQuantity] = useState(1)
   const { status, error, data } = useQuery([`product-${params.id}`],()=>{
@@ -88,8 +92,7 @@ function Product() {
         <span className="text-gray-500 font-semibold">Title</span>
         <span>{data.title}</span>
         <span className="text-gray-500 font-semibold">Description</span>
-        <p>An apple mobile which is nothing like apple but somehow resembles apple products but apple please dont sue us!</p>
-        {/* <p>{data.description}</p> */}
+        <p>{data.description}</p>
       </div>
     </div>
   </>
