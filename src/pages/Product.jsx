@@ -10,6 +10,7 @@ import colorReviewStars from "../components/colorReviewStars"
 function Product() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [stars, setStars] = useState([])
+  const [isInStock, setIsInStock] = useState()
   const daysOfWeek = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
   const months = ['January','February','March','April','May','June','July','August','September','October','November','December']
   const date = new Date()
@@ -28,6 +29,7 @@ function Product() {
   useEffect(()=>{
     if(status === 'loading' || status === 'error') return
     setStars(colorReviewStars(data.rating))
+    setIsInStock(Number(data.stock) > 0 ? true : false)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[status])
   if(status === 'loading') return <h1>Loading...</h1>
@@ -75,9 +77,11 @@ function Product() {
         <div className="flex gap-2">
           <span className="text-gray-500 font-semibold">Delivery:</span>
           <span className="font-bold text-black">{deliveryDate}</span>
-        </div>
+        </div>  
       </div>
       <div className="grid gap-6 mt-6 mb-6 border-b-2 border-gray-300 pb-6">
+        <span className={`${isInStock ? '':'hidden'} text-green-700 font-semibold -mb-4`}>In Stock.</span>
+        <span className={`${isInStock ? 'hidden':''} text-red-600 font-semibold -mb-4`}>Out of Stock.</span>
         <div className="border-2 border-gray-300 rounded-lg shadow-lg shadow-gray-300 flex justify-evenly w-fit px-2 items-center">
           <button className="mx-3" name="decrease-quantity" type="button" onClick={handleChange}>-</button>
           <label className="border-l-2 border-gray-300 pl-1 mr-1" htmlFor="quantity">Qty:</label>
