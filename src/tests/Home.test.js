@@ -47,6 +47,3 @@ it('clicking on product brings you to that products page', async () => {
 
   expect(screen.getAllByRole('img', { name: 'Fake Phone' }).length).toBe(5)
 })
-
-//test for cart button bringing you to cart page
-//test for nav button brining up nav page
