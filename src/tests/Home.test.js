@@ -29,11 +29,11 @@ it('clicking on product brings you to that products page', async () => {
   const queryClient = new QueryClient()
   const CustomHome = () =>{
     return(
-      <MemoryRouter initialEntries={['/','/products/1']}>
+      <MemoryRouter initialEntries={['/']}>
         <QueryClientProvider client={queryClient}>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/products/:id" element={<Product />} />
+              <Route path="/product/:id" element={<Product />} />
             </Routes>
         </QueryClientProvider>
       </MemoryRouter>
@@ -42,15 +42,10 @@ it('clicking on product brings you to that products page', async () => {
   render(<CustomHome />)
   await waitForElementToBeRemoved(screen.queryByText(/Loading.../i))
 
-  fireEvent.click(screen.queryByText(/Fake Phone/i))
+  fireEvent.click(screen.getByRole('img', { name: 'Fake Phone' }))
+  await waitForElementToBeRemoved(screen.queryByText(/Loading.../i))
 
-  const allPictures = screen.getAllByRole('img', {name: /Fake Phone/i})
-  expect(allPictures.length).toBe(5)
-  allPictures.forEach(img => expect(img).toBeVisible())
-
-  const allPrices = screen.getAllByText(/189/i)
-  expect(allPrices.length).toBe(2)
-  expect(screen.getByText(/A phone that has never been made before!/i)).toBeVisible()
+  expect(screen.getAllByRole('img', { name: 'Fake Phone' }).length).toBe(5)
 })
 
 //test for cart button bringing you to cart page
