@@ -58,29 +58,38 @@ function Product() {
         <span>{data.title}</span>
         <span className="flex">{stars}</span>
       </div>
-      <div className="grid grid-cols-2 text-xl border-b-2 border-gray-300 pb-2 mb-2">
+      <div className="grid grid-cols-2 text-xl border-b-2 border-gray-300 pb-2 mb-4">
         <button className="row-start-2 place-self-center" name="slide-back" type="button" onClick={handleSlide}><IoArrowBack /></button>
         {data.images.map((img, index) => <img className={`${currentSlide === index ? 'col-span-full':'hidden'} transition-all duration-400 my-2`} src={img} alt={data.title} key={uuidv4()}></img>)}
         <button className="place-self-center" name="slide-forward" type="button" onClick={handleSlide}><IoArrowForward /></button>
       </div>
-      <div>
+      <div className="grid gap-4">
         <div className="flex gap-2">
           <span className="text-gray-500 font-semibold">Price:</span>
             <span className="text-red-700">${data.price}</span>
         </div>
-        <span>{deliveryDate}</span>
+        <div className="flex gap-2">
+          <span className="text-gray-500 font-semibold">Delivery:</span>
+          <span className="font-bold text-black">{deliveryDate}</span>
+        </div>
       </div>
-      <div>
+      <div className="grid gap-6 mt-6 mb-6 border-b-2 border-gray-300 pb-6">
         <div className="border-2 border-gray-300 rounded-lg shadow-lg shadow-gray-300 flex justify-evenly w-fit px-2 items-center">
           <button className="mx-3" name="decrease-quantity" type="button" onClick={handleChange}>-</button>
           <label className="border-l-2 border-gray-300 pl-1 mr-1" htmlFor="quantity">Qty:</label>
           <input className="w-7 text-center border-r-2 border-gray-300 focus-within:outline-gray-500" name="quantity" type="number" value={quantity} onChange={handleChange} data-testid="quantity"></input>
           <button className="mx-3" name="increase-quantity" type="button" onClick={handleChange}>+</button>
         </div>
-        <button>Add to Cart</button>
+        <button className="bg-red-700 text-gray-200 py-2 px-6 rounded-full font-semibold w-full" type="button">Add to Cart</button>
       </div>
-      <div>
-        <p>{data.description}</p>
+      <div className="grid grid-cols-2 gap-y-2">
+        <span className="text-gray-500 font-semibold">Brand</span>
+        <span>{data.brand}</span>
+        <span className="text-gray-500 font-semibold">Title</span>
+        <span>{data.title}</span>
+        <span className="text-gray-500 font-semibold">Description</span>
+        <p>An apple mobile which is nothing like apple but somehow resembles apple products but apple please dont sue us!</p>
+        {/* <p>{data.description}</p> */}
       </div>
     </div>
   </>
