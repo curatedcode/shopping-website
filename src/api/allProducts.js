@@ -1,9 +1,9 @@
 import axios from "axios";
 
-function getAllProducts(){
-  return axios
-    .get('https://dummyjson.com/products')
-    .then(res => res.data)
+async function getAllProducts(){
+  const res = await axios
+    .get('https://dummyjson.com/products');
+  return res.data;
 }
 
 export default getAllProducts
