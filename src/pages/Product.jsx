@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query"
-import axios from "axios"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { v4 as uuidv4 } from 'uuid'
 import { IoArrowBack, IoArrowForward } from "react-icons/io5"
 import { GoLocation } from "react-icons/go"
 import colorReviewStars from "../components/colorReviewStars"
+import getProduct from "../api/getProduct"
+import addItemToCart from "../components/addItemToCart"
 
 function Product() {
   const [currentSlide, setCurrentSlide] = useState(0)
@@ -19,12 +20,9 @@ function Product() {
   const deliveryDate = `${day}, ${month} ${date.getDate()}`
   const params = useParams()
   const [ quantity, setQuantity] = useState(1)
-  const { status, error, data } = useQuery([`product-${params.id}`],()=>{
-    return(
-      axios
-      .get(`https://dummyjson.com/products/${params.id}`)
-      .then(res => res.data)
-    )
+  const { status, error, data } = useQuery({
+    queryKey: [`product${params.id}`],
+    queryFn: ()=>getProduct(params.id)
   })
   useEffect(()=>{
     if(status === 'loading' || status === 'error') return
@@ -88,7 +86,7 @@ function Product() {
           <input className="w-7 text-center border-r-2 border-gray-300 focus-within:outline-gray-500" name="quantity" type="number" value={quantity} onChange={handleChange} data-testid="quantity"></input>
           <button className="mx-3" name="increase-quantity" type="button" onClick={handleChange}>+</button>
         </div>
-        <button className="bg-red-700 text-gray-200 py-2 px-6 rounded-full font-semibold w-full" type="button">Add to Cart</button>
+        <button className="bg-red-700 text-gray-200 py-2 px-6 rounded-full font-semibold w-full" type="button" onClick={()=>addItemToCart(data.id)}>Add to Cart</button>
       </div>
       <div className="grid grid-cols-2 gap-y-2">
         <span className="text-gray-500 font-semibold">Brand</span>
