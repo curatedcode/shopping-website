@@ -6,7 +6,8 @@ import { IoArrowBack, IoArrowForward } from "react-icons/io5"
 import { GoLocation } from "react-icons/go"
 import colorReviewStars from "../components/colorReviewStars"
 import getProduct from "../api/getProduct"
-import addItemToCart from "../components/addItemToCart"
+import addItemToCart from "../api/addItemToCart"
+import handleQuantityChange from "../api/handleQuantityChange"
 
 function Product() {
   const [currentSlide, setCurrentSlide] = useState(0)
@@ -32,21 +33,7 @@ function Product() {
   },[status])
   if(status === 'loading') return <h1>Loading...</h1>
   if(status === 'error') return <h1>{JSON.stringify(error)}</h1>
-  const handleChange = (e)=>{
-    const initialValue = quantity
-    if(e.target.type === 'button'){
-      e.target.name === 'increase-quantity' ? (
-        quantity+1 > 99 ? setQuantity(99) : setQuantity(quantity+1)
-      ) : (
-        quantity-1 < 1 ? setQuantity(1) : setQuantity(quantity-1)
-      )
-    } else {
-      if(isNaN(e.target.value)){ setQuantity(initialValue) } 
-      else { 
-        e.target.value > 0 && e.target.value < 100 ? setQuantity(e.target.value) : setQuantity(initialValue)
-      }
-    }
-  }
+
   const handleSlide = (e)=>{
     if(e.target.name === 'slide-back'){
       currentSlide-1 > 0 ? setCurrentSlide(currentSlide-1) : setCurrentSlide(data.images.length-1)
@@ -81,12 +68,12 @@ function Product() {
         <span className={`${isInStock ? '':'hidden'} text-green-700 font-semibold -mb-4`}>In Stock.</span>
         <span className={`${isInStock ? 'hidden':''} text-red-600 font-semibold -mb-4`}>Out of Stock.</span>
         <div className="border-2 border-gray-300 rounded-lg shadow-lg shadow-gray-300 flex justify-evenly w-fit px-2 items-center">
-          <button className="mx-3" name="decrease-quantity" type="button" onClick={handleChange}>-</button>
+          <button className="mx-3" name="decrease-quantity" type="button" onClick={(e)=>setQuantity(handleQuantityChange(e, quantity))}>-</button>
           <label className="border-l-2 border-gray-300 pl-1 mr-1" htmlFor="quantity">Qty:</label>
-          <input className="w-7 text-center border-r-2 border-gray-300 focus-within:outline-gray-500" name="quantity" type="number" value={quantity} onChange={handleChange} data-testid="quantity"></input>
-          <button className="mx-3" name="increase-quantity" type="button" onClick={handleChange}>+</button>
+          <input className="w-7 text-center border-r-2 border-gray-300 focus-within:outline-gray-500" name="quantity" type="number" value={quantity} onChange={(e)=>setQuantity(handleQuantityChange(e, quantity))} data-testid="quantity"></input>
+          <button className="mx-3" name="increase-quantity" type="button" onClick={(e)=>setQuantity(handleQuantityChange(e, quantity))}>+</button>
         </div>
-        <button className="bg-red-700 text-gray-200 py-2 px-6 rounded-full font-semibold w-full" type="button" onClick={()=>addItemToCart(data.id)}>Add to Cart</button>
+        <button className="bg-red-700 text-gray-200 py-2 px-6 rounded-full font-semibold w-full" name="add-to-cart" type="button" onClick={()=>addItemToCart(data,quantity)}>Add to Cart</button>
       </div>
       <div className="grid grid-cols-2 gap-y-2">
         <span className="text-gray-500 font-semibold">Brand</span>
