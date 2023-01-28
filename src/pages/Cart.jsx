@@ -2,31 +2,32 @@ import { GoLocation } from "react-icons/go"
 import { BiTrash } from "react-icons/bi"
 import CartItemCard from "../components/CartItemCard"
 import { v4 as uuidv4 } from "uuid"
-import { useMutation, useQuery } from "@tanstack/react-query"
-import handleQuantityChange from "../components/handleQuantityChange"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import handleQuantityChange from "../api/handleQuantityChange"
 import { Link } from "react-router-dom"
 import { useState } from "react"
-import { getCartData, removeItem } from "../api/cartData"
+import { removeItem, updateCartItemQuantity } from "../api/cartData"
 
 function Cart(){
-  // localStorage.removeItem('cartItems')
-  //need to calculate the items total
   const [allItemsTotal, setAllItemsTotal] = useState(0)
+  const queryClient = useQueryClient()
   const { status, error, data } = useQuery({
-    queryKey: ['cartData'],
-    queryFn: getCartData,
+    queryKey: ['cartItems'],
+    queryFn: ()=>JSON.parse(localStorage.getItem('cartItems')),
   })
-  const editQuantityMutation = useMutation({
-    mutationFn: (e, id)=>{
-      const products = data.forEach(item => {
-        if(item.id === id){
-          item.quantity = handleQuantityChange(e, Number(item.stock))
-        }
-      })
-      localStorage.setItem('cartData',JSON.stringify(products))
-    },
+  const editQuantity = useMutation({
+    mutationFn: updateCartItemQuantity,
+    onSuccess: () => queryClient.invalidateQueries(['cartItems'])
   })
-  
+  const deleteItem = useMutation({
+    mutationFn: removeItem,
+    onSuccess: () => queryClient.invalidateQueries(['cartItems'])
+  })
+  function handleChange(e, itemId, currItemQuantity){
+    const newQuantity = handleQuantityChange(e, currItemQuantity)
+    editQuantity.mutate({id: itemId, quantity: newQuantity})
+  }
+
   if(status === 'loading') return <h1>Loading Your Cart...</h1>
   if(status === 'error') return <h1>{JSON.parse(error)}</h1>
   return(
@@ -43,11 +44,11 @@ function Cart(){
           <div key={uuidv4()}>
             <CartItemCard data={item}/>
             <div className="flex gap-2">
-              <BiTrash className={`${ Number(item.stock) > 1 ? 'hidden':''}`} onClick={()=>removeItem(item.id)} />
-              <button className={`${ Number(item.stock) > 1 ? '':'hidden'}`} onClick={(e)=>editQuantityMutation(e, item.id)} type="button">-</button>
+              <BiTrash className={`${ Number(item.stock) > 1 ? 'hidden':''}`} onClick={()=>deleteItem.mutate(item.id)}  />
+              <button className={`${ Number(item.stock) > 1 ? '':'hidden'}`} onClick={(e)=>handleChange(e, item.id, item.quantity)} name="decrease-quantity" type="button">-</button>
               <span>{item.quantity}</span>
-              <button onClick={(e)=>editQuantityMutation(e, item.id)} type="button">+</button>
-              <button onClick={()=>removeItem(item.id)} type={'button'}>Delete</button>
+              <button onClick={(e)=>handleChange(e, item.id, item.quantity)} name="increase-quantity" type="button">+</button>
+              <button onClick={()=>deleteItem.mutate(item.id)} type={'button'}>Delete</button>
             </div>
           </div>
         )) : (
