@@ -21,9 +21,16 @@ describe('product component',()=>{
     render(<CustomProduct />)
     await waitForElementToBeRemoved(screen.queryByText(/Loading.../i))
 
+    const daysOfWeek = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
+    const months = ['January','February','March','April','May','June','July','August','September','October','November','December']
+    const date = new Date()
+    const day = daysOfWeek[date.getDay()]
+    const month = months[date.getMonth()]
+    const deliveryDate = `${day}, ${month} ${date.getDate()}`
+
     expect(screen.getAllByRole('img', { name: 'Fake Phone' }).length).toBe(5)
     expect(screen.getByText(/in stock/i)).toBeVisible()
-    expect(screen.getByText(/friday, january 27/i)).toBeVisible()
+    expect(screen.getByText(deliveryDate)).toBeVisible()
     expect(screen.getByTestId(/quantity/i).value).toEqual('1')
     expect(screen.getAllByText(/Fake Phone/i).length).toBe(2)
     expect(screen.getByText(/Faker/i)).toBeVisible()
