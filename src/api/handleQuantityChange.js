@@ -14,7 +14,6 @@ function handleQuantityChange(e,quantity){
       Number(e.target.value) > 0 &&  Number(e.target.value) < 100 ? newQuantity =  Number(e.target.value) : newQuantity = quantity
     }
   }
-  console.log(newQuantity)
   return newQuantity
 }
 
