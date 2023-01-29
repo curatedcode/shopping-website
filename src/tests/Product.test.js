@@ -37,6 +37,35 @@ describe('product component',()=>{
     expect(screen.getByText(/A phone that has never been made before!/i)).toBeVisible()
   })
 
+  it('should go to next or previous image in slide', async()=>{
+    const queryClient = new QueryClient()
+    const CustomProduct = () =>{
+      return(
+        <MemoryRouter initialEntries={['/products/1']}>
+          <QueryClientProvider client={queryClient}>
+            <Routes>
+              <Route path="/products/:id" element={<Product />} />
+            </Routes>
+          </QueryClientProvider>
+         </MemoryRouter>
+      )
+    }
+    render(<CustomProduct />)
+    await waitForElementToBeRemoved(screen.queryByText(/Loading.../i))
+
+    const allSlideImages = screen.getAllByAltText(/fake phone/i)
+    expect(allSlideImages[0]).toBeVisible()
+    
+    setTimeout(()=>fireEvent.click(screen.getByLabelText('slide-forward')),100)
+    expect(allSlideImages[1]).toBeVisible()
+
+    setTimeout(()=>fireEvent.click(screen.getByLabelText('slide-previous')),100)
+    expect(allSlideImages[0]).toBeVisible()
+
+    setTimeout(()=>fireEvent.click(screen.getByLabelText('slide-previous')),100)
+    expect(allSlideImages[2]).toBeVisible()
+  })
+
   it('should add item to cart on clicking add to cart button',async()=>{
     const queryClient = new QueryClient()
     const CustomProduct = () =>{
