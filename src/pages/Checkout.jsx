@@ -12,7 +12,7 @@ function Checkout(){
     queryFn: getCheckoutStage,
   })
   useEffect(()=>{
-    if(status === 'success') setStage(data)
+    setStage(data)
   },[status,data])
   if(status === 'loading') return <h1>Loading...</h1>
   if(status === 'error') return <h1>{JSON.stringify(error)}</h1>
