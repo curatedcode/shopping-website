@@ -31,7 +31,9 @@ function Cart(){
   }
   function updateCartTotal(){
     let totalPrice = 0
-    data.map(item => totalPrice += item.price*item.quantity)
+    if(data && data.length > 0) {
+      data.map(item => totalPrice += item.price*item.quantity)
+    }
     setAllItemsTotal(totalPrice)
   }
   useEffect(()=>{
@@ -40,7 +42,7 @@ function Cart(){
   return(
     <>
       <div className="h-screen flex flex-col px-4 py-8 gap-6">
-        {data?.length > 0 ? (
+        { data?.length > 0 && data ? (
           <>
           <div className="text-xl flex items-center font-semibold">
             <span className="font-normal">Subtotal</span>
