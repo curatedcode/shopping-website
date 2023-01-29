@@ -18,15 +18,21 @@ function Checkout(){
   if(status === 'error') return <h1>{JSON.stringify(error)}</h1>
   return(
     <div>
-      <div className={stage === 'address-section' ? '':'hidden'}>
-        <CheckoutAddressSection />
-      </div>
-      <div className={stage === 'card-section' ? '':'hidden'}>
-        <CheckoutCardSection />
-      </div>
-      <div className={stage === 'submitted-section' ? '':'hidden'}>
-        <CheckoutSubmittedSection />
-      </div>
+      {
+        stage === 'address-section' ? (
+          <CheckoutAddressSection />
+        ) : ( '' )
+      }
+      {
+        stage === 'card-section' ? (
+          <CheckoutCardSection />
+        ) : ( '' )
+      }
+      {
+        stage === 'submitted-section' ? (
+          <CheckoutSubmittedSection />
+        ) : ( '' )
+      }
     </div>
   )
 }
