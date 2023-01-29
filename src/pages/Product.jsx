@@ -8,17 +8,12 @@ import colorReviewStars from "../components/colorReviewStars"
 import getProduct from "../api/getProduct"
 import addItemToCart from "../api/addItemToCart"
 import handleQuantityChange from "../api/handleQuantityChange"
+import getDate from "../api/getDate"
 
 function Product() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [stars, setStars] = useState([])
   const [isInStock, setIsInStock] = useState()
-  const daysOfWeek = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
-  const months = ['January','February','March','April','May','June','July','August','September','October','November','December']
-  const date = new Date()
-  const day = daysOfWeek[date.getDay()]
-  const month = months[date.getMonth()]
-  const deliveryDate = `${day}, ${month} ${date.getDate()}`
   const params = useParams()
   const [ quantity, setQuantity] = useState(1)
   const { status, error, data } = useQuery({
@@ -61,7 +56,7 @@ function Product() {
         </div>
         <div className="flex gap-2">
           <span className="text-gray-500 font-semibold">Delivery:</span>
-          <span className="font-bold text-black">{deliveryDate}</span>
+          <span className="font-bold text-black">{getDate()}</span>
         </div>  
       </div>
       <div className="grid gap-6 mt-6 mb-6 border-b-2 border-gray-300 pb-6">
