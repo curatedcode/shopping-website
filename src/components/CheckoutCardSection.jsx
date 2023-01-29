@@ -4,7 +4,7 @@ import { useState } from "react";
 import getDate from "../api/getDate";
 
 function CheckoutCardSection(){
-  const orderTotalBeforeTax = localStorage.getItem('orderTotal')
+  const orderTotalBeforeTax = Number(localStorage.getItem('orderTotal'))
   const orderTotalAfterTax = Math.floor(orderTotalBeforeTax + orderTotalBeforeTax*0.7)
   const [cardNumber, setCardNumber] = useState('')
   const [expirationDate, setExpirationDate] = useState('')
@@ -44,7 +44,7 @@ function CheckoutCardSection(){
   })
 
   return(
-    <div className="px-2 py-6">
+    <div className="px-2 py-6 h-screen">
       <h1 className="mb-8 text-center">Add your card</h1>
       <form aria-label="form" onSubmit={(e)=>{
         e.preventDefault()
@@ -76,10 +76,10 @@ function CheckoutCardSection(){
           
           <div className="grid grid-cols-2 mb-8">
             <label htmlFor="state" className="font-bold ml-1">State</label>
-            <input title="State" className="row-start-2 rounded-md border-2 border-gray-400 border-opacity-70 focus-within:outline-gray-500 px-2 pb-1 py-2 mr-4" type="text" name="state" required value={state} onChange={(e)=>setState(e.target.value)}></input>
+            <input title="State" className="row-start-2 rounded-md border-2 border-gray-400 border-opacity-70 focus-within:outline-gray-500 px-2 pb-1 py-2 mr-4" type="text" name="state" value={state} onChange={(e)=>setState(e.target.value)}></input>
             
             <label htmlFor="zip-code" className="font-bold ml-1">ZIP Code</label>
-            <input title="ZIP Code" className="row-start-2 rounded-md border-2 border-gray-400 border-opacity-70 focus-within:outline-gray-500 px-2 pb-1 py-2" type="number" name="zip-code" required value={zipCode} onChange={(e)=>setZipCode(e.target.value)}></input>
+            <input title="ZIP Code" className="row-start-2 rounded-md border-2 border-gray-400 border-opacity-70 focus-within:outline-gray-500 px-2 pb-1 py-2" type="number" name="zip-code" value={zipCode} onChange={(e)=>setZipCode(e.target.value)}></input>
           </div>
 
           <button className="bg-red-700 text-gray-200 py-2 px-6 rounded-md font-semibold w-full mb-8" onClick={()=>setCanShowFinalButton(true)} name="submit-address">Use this address</button>
