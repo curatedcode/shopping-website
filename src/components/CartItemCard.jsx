@@ -2,7 +2,7 @@
 function CartItemCard(props){
   return(
     <div className="grid grid-cols-2 grid-rows-3 gap-x-2 p-0 m-0 col-span-2">
-      <img className="grid row-span-full" src={props.data.thumbnail} alt={props.data.title}></img>
+      <img className="grid row-span-full rounded-md" src={props.data.thumbnail} alt={props.data.title}></img>
       <span className="overflow-hidden text-ellipsis leading-tight">{props.data.title}</span>
       <div className="font-semibold flex items-center -mt-2 mb-1">
         <span className="text-xs">$</span>
