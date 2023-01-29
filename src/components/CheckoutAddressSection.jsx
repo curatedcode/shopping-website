@@ -41,7 +41,7 @@ function CheckoutAddressSection(){
         <input title="Full Name (First and last name)" className="rounded-md border-2 border-gray-400 border-opacity-70 focus-within:outline-gray-500 px-2 py-2 mb-4" type="text" name="full-name" required value={fullName} onChange={(e)=>setFullName(e.target.value)}></input>
         
         <label htmlFor="phone-number" className="font-bold ml-1">Phone number</label>
-        <input title="Phone Number" className="rounded-md border-2 border-gray-400 border-opacity-70 focus-within:outline-gray-500 px-2 py-2 mb-4" type="number" name="phone-number" required value={phoneNumber} onChange={(e)=>setPhoneNumber(e.target.value)}></input>
+        <input title="Phone Number" className="rounded-md border-2 border-gray-400 border-opacity-70 focus-within:outline-gray-500 px-2 py-2 mb-4" type="tel" name="phone-number" required value={phoneNumber} onChange={(e)=>setPhoneNumber(e.target.value)}></input>
         
         <label htmlFor="address" className="font-bold ml-1">Address</label>
         <div className="rounded-md border-2 border-gray-400 border-opacity-70 mb-4">
@@ -61,7 +61,7 @@ function CheckoutAddressSection(){
           <input title="ZIP Code" className="row-start-2 rounded-md border-2 border-gray-400 border-opacity-70 focus-within:outline-gray-500 px-2 pb-1 py-2" type="number" name="zip-code" required value={zipCode} onChange={(e)=>setZipCode(e.target.value)}></input>
         </div>
 
-        <button className="bg-red-700 text-gray-200 py-2 px-6 rounded-full font-semibold w-full" type="submit" name="submit">Use this address</button>
+        <button className="bg-red-700 text-gray-200 py-2 px-6 rounded-md font-semibold w-full" type="submit" name="submit">Use this address</button>
       </form>
     </div>
   )
