@@ -2,6 +2,7 @@ import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
 function NotFound(){
+  localStorage.removeItem('checkoutStage')
   const navigate = useNavigate()
   useEffect(()=>{
     setTimeout(()=>{

@@ -8,6 +8,7 @@ import { useEffect, useState } from "react"
 import { removeItem, updateCartItemQuantity } from "../api/cartData"
 
 function Cart(){
+  localStorage.removeItem('checkoutStage')
   const [allItemsTotal, setAllItemsTotal] = useState(0)
   const queryClient = useQueryClient()
   const { status, error, data } = useQuery({
