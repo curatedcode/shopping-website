@@ -1,4 +1,3 @@
-import { GoLocation } from "react-icons/go"
 import { BiTrash } from "react-icons/bi"
 import CartItemCard from "../components/CartItemCard"
 import { v4 as uuidv4 } from "uuid"
@@ -33,7 +32,7 @@ function Cart(){
   }
   function updateCartTotal(){
     let totalPrice = 0
-    if(status === 'success') data.map(item => totalPrice += item.price)
+    if(status === 'success') data.map(item => totalPrice += item.price*item.quantity)
     setAllItemsTotal(totalPrice)
   }
   useEffect(()=>{
@@ -44,29 +43,30 @@ function Cart(){
   if(status === 'error') return <h1>{JSON.parse(error)}</h1>
   return(
     <>
-      <div className="h-screen">
+      <div className="h-screen flex flex-col px-4 py-8 gap-6">
         {data?.length > 0 ? (
           <>
-          <Link to="/checkout">
-            <button onClick={storeOrderTotal} className="bg-red-700 text-gray-200 py-2 px-6 rounded-full font-semibold w-full" type="button" name="checkout">Proceed to checkout</button>
-          </Link>
-          {data.map(item => 
-            <div key={uuidv4()}>
-              <CartItemCard data={item}/>
-              <div className="flex gap-2">
-                <BiTrash className={`${ Number(item.stock) > 1 ? 'hidden':''}`} onClick={()=>deleteItem.mutate(item.id)}  />
-                <button className={`${ Number(item.stock) > 1 ? '':'hidden'}`} onClick={(e)=>handleChange(e, item.id, item.quantity)} name="decrease-quantity" type="button">-</button>
-                <span>{item.quantity}</span>
-                <button onClick={(e)=>handleChange(e, item.id, item.quantity)} name="increase-quantity" type="button">+</button>
-                <button onClick={()=>deleteItem.mutate(item.id)} type={'button'}>Delete</button>
-              </div>
-            </div>
-          )}
-          <div>
-            <span>Subtotal</span>
-            <span>$</span>
+          <div className="text-xl flex items-center font-semibold">
+            <span className="font-normal">Subtotal</span>
+            <span className="text-sm ml-2">$</span>
             <span>{allItemsTotal}</span>
           </div>
+          <Link to="/checkout">
+            <button onClick={storeOrderTotal} className="bg-red-700 text-gray-200 py-2 px-6 rounded-md font-semibold w-full" type="button" name="checkout">Proceed to checkout ({data.length} item{data.length > 1 ? 's':''})</button>
+          </Link>
+          <div className="w-full border-b-2 border-gray-300 my-3"></div>
+          {data.map(item => 
+            <div className="grid px-2 grid-cols-2" key={uuidv4()}>
+              <CartItemCard data={item} />
+              <div className="text-xl my-6 border-2 border-gray-300 rounded-lg shadow-lg shadow-gray-300 flex justify-evenly w-fit items-center row-start-2">
+                <BiTrash className={`${ Number(item.quantity) > 1 ? 'hidden':''} mx-3`} onClick={()=>deleteItem.mutate(item.id)}  />
+                <button className={`${ Number(item.quantity) > 1 ? '':'hidden'} mx-3`} onClick={(e)=>handleChange(e, item.id, item.quantity)} name="decrease-quantity" type="button">-</button>
+                <span className="w-10 text-base text-center border-x-2 border-gray-300">{item.quantity}</span>
+                <button className="mx-3" onClick={(e)=>handleChange(e, item.id, item.quantity)} name="increase-quantity" type="button">+</button>
+              </div>
+              <button className="my-6 border-2 border-gray-300 rounded-md shadow-lg shadow-gray-300 w-fit px-3 row-start-2" onClick={()=>deleteItem.mutate(item.id)} type={'button'}>Delete</button>
+            </div>
+          )}
           </>
         ) : (
           <div>
