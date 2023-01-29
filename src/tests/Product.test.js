@@ -36,6 +36,40 @@ describe('product component',()=>{
     expect(screen.getByText(/Faker/i)).toBeVisible()
     expect(screen.getByText(/A phone that has never been made before!/i)).toBeVisible()
   })
+
+  it('should add item to cart on clicking add to cart button',async()=>{
+    const queryClient = new QueryClient()
+    const CustomProduct = () =>{
+      return(
+        <MemoryRouter initialEntries={['/products/1']}>
+          <QueryClientProvider client={queryClient}>
+            <Routes>
+              <Route path="/products/:id" element={<Product />} />
+            </Routes>
+          </QueryClientProvider>
+         </MemoryRouter>
+      )
+    }
+    render(<CustomProduct />)
+    await waitForElementToBeRemoved(screen.queryByText(/Loading.../i))
+
+    fireEvent.click(screen.getByRole('button', { name: /add to cart/i}))
+
+    const fakeItemData = [
+      {"id":1,
+      "title":"Fake Phone",
+      "description":"A phone that has never been made before!",
+      "price":189,
+      "discountPercentage":12.96,
+      "rating":4.69,
+      "stock":94,
+      "brand":"Faker",
+      "category":"smartphones",
+      "thumbnail":"https://i.dummyjson.com/data/products/1/thumbnail.jpg",
+      "images":["https://i.dummyjson.com/data/products/1/1.jpg","https://i.dummyjson.com/data/products/1/2.jpg","https://i.dummyjson.com/data/products/1/3.jpg","https://i.dummyjson.com/data/products/1/4.jpg","https://i.dummyjson.com/data/products/1/thumbnail.jpg"],"quantity":1}
+    ]
+    expect(JSON.parse(localStorage.getItem('cartItems'))).toStrictEqual(fakeItemData)
+  })
 })
 
 describe('order quantity input',()=>{
