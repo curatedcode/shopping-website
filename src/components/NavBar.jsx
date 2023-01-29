@@ -16,7 +16,7 @@ function NavBar(){
         </li>
         <li className="title-font place-self-center grid self-center">
           <Link to="/">
-            <RiBearSmileLine className="fill-red-700 text-3xl" />
+            <RiBearSmileLine aria-label="home" className="fill-red-700 text-3xl" />
           </Link>
         </li>
         <li className="place-self-end grid self-center">
