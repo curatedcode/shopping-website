@@ -35,7 +35,7 @@ function CheckoutCardSection(){
       localStorage.setItem('orderData',JSON.stringify(orderData))
       localStorage.setItem('checkoutStage','submitted-section')
     },
-    onSuccess: queryClient.invalidateQueries(['checkout-stage'])
+    onSuccess: queryClient.invalidateQueries(['checkoutStage'])
   })
 
   function handleBillingAddressSubmit(e){
@@ -47,7 +47,7 @@ function CheckoutCardSection(){
       state: state,
       zipCode: zipCode
     }
-    canShowFinalButton(true)
+    setCanShowFinalButton(true)
     setBillingAddress(addressData)
   }
   return(
@@ -86,13 +86,14 @@ function CheckoutCardSection(){
             <input title="ZIP Code" className="row-start-2 rounded-md border-2 border-gray-400 border-opacity-70 focus-within:outline-gray-500 px-2 pb-1 py-2" type="number" name="zip-code" required value={zipCode} onChange={(e)=>setZipCode(e.target.value)}></input>
           </div>
 
-          <button className="bg-red-700 text-gray-200 py-2 px-6 rounded-full font-semibold w-full mb-8" onSubmit={handleBillingAddressSubmit} type="submit" name="submit">Use this address</button>
+          <button className="bg-red-700 text-gray-200 py-2 px-6 rounded-md font-semibold w-full mb-8" onClick={handleBillingAddressSubmit} name="submit-address">Use this address</button>
         </div>
-        <div>
-          <span>Order Total</span>
+        <div className={`flex text-lg items-center font-semibold mt-4 ${canShowFinalButton ? '':'hidden'}`}>
+          <span className="font-normal">Order Total</span>
+          <span className="ml-2 text-sm">$</span>
           <span>{orderTotal}</span>
         </div>
-        <button className={`bg-red-700 text-gray-200 py-2 px-6 rounded-full font-semibold w-full ${canShowFinalButton ? '':'hidden'}`} type="submit" name="submit">Submit my order</button>
+        <button className={`bg-red-700 text-gray-200 py-2 px-6 my-4 rounded-md font-semibold w-full ${canShowFinalButton ? '':'hidden'}`} type="submit" name="submit">Submit my order</button>
       </form>
     </div>
   )
