@@ -1,19 +1,15 @@
-import { useEffect, useState } from "react"
 
 function CartItemCard(props){
-  const [isInStock, setIsInStock] = useState()
-  useEffect(()=>{
-    Number(props.data.stock) > 0 ? setIsInStock(true) : setIsInStock(false)
-  },[props.data.stock])
   return(
-    <div className="flex">
-      <img src={props.data.thumbnail} alt={props.data.title}></img>
-      <div>
-        <span>{props.data.title}</span>
+    <div className="grid grid-cols-2 grid-rows-3 gap-x-2 p-0 m-0 col-span-2">
+      <img className="grid row-span-full" src={props.data.thumbnail} alt={props.data.title}></img>
+      <span className="overflow-hidden text-ellipsis leading-tight">{props.data.title}</span>
+      <div className="font-semibold flex items-center -mt-2 mb-1">
+        <span className="text-xs">$</span>
         <span>{props.data.price}</span>
-        <span className={`${isInStock ? '':'hidden'} text-green-700 font-semibold -mb-4`}>In Stock.</span>
-        <span className={`${isInStock ? 'hidden':''} text-red-600 font-semibold -mb-4`}>Out of Stock.</span>
       </div>
+      <span className={`${Number(props.data.stock) > 0 ? '':'hidden'} text-green-700 font-semibold -mt-2 text-sm`}>In Stock.</span>
+      <span className={`${Number(props.data.stock) > 0 ? 'hidden':''} text-red-600 font-semibold -mt-2 text-sm`}>Out of Stock.</span>
     </div>
   )
 }
