@@ -30,7 +30,7 @@ function CheckoutAddressSection(){
     onSuccess: () => queryClient.invalidateQueries(['checkoutStage'])
   })
   return(
-    <div className="px-2 py-6">
+    <div className="px-2 py-6 h-screen">
       <h1 className="mb-8 text-center">Add your shipping address</h1>
       <form aria-label="form" onSubmit={(e)=>{
         e.preventDefault()

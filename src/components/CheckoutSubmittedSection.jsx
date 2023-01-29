@@ -5,7 +5,7 @@ function CheckoutSubmittedSection(){
   const shipTo = JSON.parse(localStorage.getItem('shippingAddress')).fullName
 
   return(
-    <div className="grid grid-cols-2 text-lg px-2 py-6">
+    <div className="grid grid-cols-2 text-lg px-2 py-6 h-screen auto-rows-min">
       <span>Order Placed</span>
       <span className="mb-6">{orderData.submitted}</span>
       <span>Total</span>

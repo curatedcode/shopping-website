@@ -42,7 +42,7 @@ function Cart(){
   })
   return(
     <>
-      <div className="flex flex-col px-4 py-8 gap-6">
+      <div className="flex flex-col px-4 py-8 gap-6 h-screen">
         { data?.length > 0 && data ? (
           <>
           <div className="text-xl flex items-center font-semibold">
