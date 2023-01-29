@@ -29,11 +29,11 @@ function Product() {
   if(status === 'loading') return <h1>Loading...</h1>
   if(status === 'error') return <h1>{JSON.stringify(error)}</h1>
 
-  const handleSlide = (e)=>{
-    if(e.target.name === 'slide-back'){
-      currentSlide-1 > 0 ? setCurrentSlide(currentSlide-1) : setCurrentSlide(data.images.length-1)
-    } else {
+  const handleSlide = (operation)=>{
+    if(operation === 'slide-forward'){
       currentSlide+1 < data.images.length ? setCurrentSlide(currentSlide+1) : setCurrentSlide(0) 
+    } else {
+      currentSlide-1 >= 0 ? setCurrentSlide(currentSlide-1) : setCurrentSlide(data.images.length-1)
     }
   }
   return(
@@ -45,9 +45,9 @@ function Product() {
         <span className="flex">{stars}</span>
       </div>
       <div className="grid grid-cols-2 text-xl border-b-2 border-gray-300 pb-2 mb-4">
-        <button className="row-start-2 place-self-center" name="slide-back" type="button" onClick={handleSlide}><IoArrowBack /></button>
-        {data.images.map((img, index) => <img className={`${currentSlide === index ? 'col-span-full':'hidden'} transition-all duration-400 my-2`} src={img} alt={data.title} key={uuidv4()}></img>)}
-        <button className="place-self-center" name="slide-forward" type="button" onClick={handleSlide}><IoArrowForward /></button>
+        <button aria-label="slide-previous" className="row-start-2 place-self-center" name="slide-previous" type="button" onClick={()=>handleSlide('slide-previous')}><IoArrowBack /></button>
+        {data.images.map((img, index) => <img className={`${currentSlide === index ? '':'hidden'} col-span-full my-2`} src={img} alt={data.title} key={uuidv4()}></img>)}
+        <button aria-label="slide-forward" className="place-self-center" name="slide-forward" type="button" onClick={()=>handleSlide('slide-forward')}><IoArrowForward /></button>
       </div>
       <div className="grid gap-4">
         <div className="flex gap-2">
