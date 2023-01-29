@@ -4,7 +4,8 @@ import { useState } from "react";
 import getDate from "../api/getDate";
 
 function CheckoutCardSection(){
-  const orderTotal = localStorage.getItem('orderTotal')
+  const orderTotalBeforeTax = localStorage.getItem('orderTotal')
+  const orderTotalAfterTax = Math.floor(orderTotalBeforeTax + orderTotalBeforeTax*0.7)
   const [cardNumber, setCardNumber] = useState('')
   const [billingAddress, setBillingAddress] = useState()
   const [expirationDate, setExpirationDate] = useState('')
@@ -29,7 +30,7 @@ function CheckoutCardSection(){
       const orderData = {
         number: uuidv4(),
         submitted: getDate(),
-        orderTotal: orderTotal
+        orderTotal: orderTotalAfterTax
       }
       localStorage.setItem('cardData',JSON.stringify(cardData))
       localStorage.setItem('orderData',JSON.stringify(orderData))
@@ -91,7 +92,7 @@ function CheckoutCardSection(){
         <div className={`flex text-lg items-center font-semibold mt-4 ${canShowFinalButton ? '':'hidden'}`}>
           <span className="font-normal">Order Total</span>
           <span className="ml-2 text-sm">$</span>
-          <span>{orderTotal}</span>
+          <span>{orderTotalAfterTax}</span>
         </div>
         <button className={`bg-red-700 text-gray-200 py-2 px-6 my-4 rounded-md font-semibold w-full ${canShowFinalButton ? '':'hidden'}`} type="submit" name="submit">Submit my order</button>
       </form>
