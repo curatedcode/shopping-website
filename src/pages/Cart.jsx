@@ -6,6 +6,7 @@ import handleQuantityChange from "../api/handleQuantityChange"
 import { Link } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { removeItem, updateCartItemQuantity } from "../api/cartData"
+import { MdOutlineRemoveShoppingCart } from "react-icons/md"
 
 function Cart(){
   localStorage.removeItem('checkoutStage')
@@ -41,7 +42,7 @@ function Cart(){
   })
   return(
     <>
-      <div className="h-screen flex flex-col px-4 py-8 gap-6">
+      <div className="flex flex-col px-4 py-8 gap-6">
         { data?.length > 0 && data ? (
           <>
           <div className="text-xl flex items-center font-semibold">
@@ -67,10 +68,13 @@ function Cart(){
           )}
           </>
         ) : (
-          <div>
-            <div>No Items In Your Cart.</div>
+          <div className="font-semibold grid place-items-center gap-y-8">
+            <div className="flex items-center gap-4">
+              <MdOutlineRemoveShoppingCart className="text-xl" />
+              <span>No Items In Your Cart.</span>
+            </div>
             <Link to="/">
-              <button type="button">Keep Shopping</button>
+              <button className="bg-red-700 text-gray-200 py-2 px-6 rounded-md w-full" type="button">Keep Shopping</button>
             </Link>
           </div>
         )}
