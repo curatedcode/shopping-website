@@ -27,9 +27,9 @@ function App() {
               <Route path="/product/:id" element={<Product />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />
+              <Route path="*" element={<NotFound />}/>
             </Route>          
           </Route>
-          <Route path="*" element={<NotFound />}/>
         </Routes>    
         <ReactQueryDevtools />
       </QueryClientProvider>
