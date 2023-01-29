@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import getCheckoutStage from "../api/checkoutStage"
 import CheckoutAddressSection from "../components/CheckoutAddressSection"
 import CheckoutCardSection from "../components/CheckoutCardSection"
+import CheckoutSubmittedSection from "../components/CheckoutSubmittedSection"
 
 function Checkout(){
   const [stage, setStage] = useState('')
@@ -12,8 +13,7 @@ function Checkout(){
   })
   useEffect(()=>{
     if(status === 'success') setStage(data)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[status])
+  },[status,data])
   if(status === 'loading') return <h1>Loading...</h1>
   if(status === 'error') return <h1>{JSON.stringify(error)}</h1>
   return(
@@ -23,6 +23,9 @@ function Checkout(){
       </div>
       <div className={stage === 'card-section' ? '':'hidden'}>
         <CheckoutCardSection />
+      </div>
+      <div className={stage === 'submitted-section' ? '':'hidden'}>
+        <CheckoutSubmittedSection />
       </div>
     </div>
   )
