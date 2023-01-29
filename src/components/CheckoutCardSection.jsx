@@ -7,7 +7,6 @@ function CheckoutCardSection(){
   const orderTotalBeforeTax = localStorage.getItem('orderTotal')
   const orderTotalAfterTax = Math.floor(orderTotalBeforeTax + orderTotalBeforeTax*0.7)
   const [cardNumber, setCardNumber] = useState('')
-  const [billingAddress, setBillingAddress] = useState()
   const [expirationDate, setExpirationDate] = useState('')
   
   const [isAddressAndBillingSame, setIsAddressAndBillingSame] = useState(false)
@@ -20,11 +19,16 @@ function CheckoutCardSection(){
 
   const queryClient = useQueryClient()
   const handleSubmit = useMutation({
-    mutationFn: (e)=>{
-      e.preventDefault()
+    mutationFn: ()=>{
       const cardData = {
         cardNumber: cardNumber,
-        billingAddress: isAddressAndBillingSame ? undefined : billingAddress,
+        billingAddress: isAddressAndBillingSame ? null : {
+          address: address,
+          addressOptional: addressOptional,
+          city: city,
+          state: state,
+          zipCode: zipCode
+        },
         expirationDate: expirationDate,
       }
       const orderData = {
@@ -36,25 +40,16 @@ function CheckoutCardSection(){
       localStorage.setItem('orderData',JSON.stringify(orderData))
       localStorage.setItem('checkoutStage','submitted-section')
     },
-    onSuccess: queryClient.invalidateQueries(['checkoutStage'])
+    onSuccess: ()=> queryClient.invalidateQueries(['checkoutStage'])
   })
 
-  function handleBillingAddressSubmit(e){
-    e.preventDefault()
-    const addressData = {
-      address: address,
-      addressOptional: addressOptional,
-      city: city,
-      state: state,
-      zipCode: zipCode
-    }
-    setCanShowFinalButton(true)
-    setBillingAddress(addressData)
-  }
   return(
     <div className="px-2 py-6">
       <h1 className="mb-8 text-center">Add your card</h1>
-      <form onSubmit={(e)=>handleSubmit.mutate(e)}  className="grid">
+      <form aria-label="form" onSubmit={(e)=>{
+        e.preventDefault()
+        handleSubmit.mutate()
+      }}  className="grid">
         <label className="font-bold ml-1" htmlFor="card-number">Card number</label>
         <input title="Card Number" className="rounded-md border-2 border-gray-400 border-opacity-70 focus-within:outline-gray-500 px-2 pb-1 py-2 mb-4" type="text" name="card-number" required value={cardNumber} onChange={(e)=>setCardNumber(e.target.value)}></input>
         <label className="font-bold ml-1" htmlFor="exp-date">Exp. date</label>
@@ -87,14 +82,14 @@ function CheckoutCardSection(){
             <input title="ZIP Code" className="row-start-2 rounded-md border-2 border-gray-400 border-opacity-70 focus-within:outline-gray-500 px-2 pb-1 py-2" type="number" name="zip-code" required value={zipCode} onChange={(e)=>setZipCode(e.target.value)}></input>
           </div>
 
-          <button className="bg-red-700 text-gray-200 py-2 px-6 rounded-md font-semibold w-full mb-8" onClick={handleBillingAddressSubmit} name="submit-address">Use this address</button>
+          <button className="bg-red-700 text-gray-200 py-2 px-6 rounded-md font-semibold w-full mb-8" onClick={()=>setCanShowFinalButton(true)} name="submit-address">Use this address</button>
         </div>
         <div className={`flex text-lg items-center font-semibold mt-4 ${canShowFinalButton ? '':'hidden'}`}>
           <span className="font-normal">Order Total</span>
           <span className="ml-2 text-sm">$</span>
           <span>{orderTotalAfterTax}</span>
         </div>
-        <button className={`bg-red-700 text-gray-200 py-2 px-6 my-4 rounded-md font-semibold w-full ${canShowFinalButton ? '':'hidden'}`} type="submit" name="submit">Submit my order</button>
+        <button className={`bg-red-700 text-gray-200 py-2 px-6 my-4 rounded-md font-semibold w-full ${canShowFinalButton ? '':'hidden'}`} onSubmit={e=>e.preventDefault()} type="submit" name="submit">Submit my order</button>
       </form>
     </div>
   )
