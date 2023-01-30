@@ -55,14 +55,14 @@ describe('product component',()=>{
 
     const allSlideImages = screen.getAllByAltText(/fake phone/i)
     expect(allSlideImages[0]).toBeVisible()
-    
-    setTimeout(()=>fireEvent.click(screen.getByLabelText('slide-forward')),100)
+
+    setTimeout(()=>fireEvent.click(screen.getByLabelText('slide-forward')),200)
     expect(allSlideImages[1]).toBeVisible()
 
-    setTimeout(()=>fireEvent.click(screen.getByLabelText('slide-previous')),100)
+    setTimeout(()=>fireEvent.click(screen.getByLabelText('slide-previous')),200)
     expect(allSlideImages[0]).toBeVisible()
 
-    setTimeout(()=>fireEvent.click(screen.getByLabelText('slide-previous')),100)
+    setTimeout(()=>fireEvent.click(screen.getByLabelText('slide-previous')),200)
     expect(allSlideImages[2]).toBeVisible()
   })
 
