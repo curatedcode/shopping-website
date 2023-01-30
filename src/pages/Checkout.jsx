@@ -18,7 +18,7 @@ function Checkout(){
   if(status === 'error') return <h1>{JSON.stringify(error)}</h1>
   return(
     <div>
-      <div className="text-gray-200 bg-red-700 py-3 text-sm flex justify-center gap-2 items-center font-semibold mb-4">Checkout</div>
+      <div className="text-gray-200 bg-red-700 py-3 text-sm flex justify-center gap-2 items-center font-semibold mb-4 md:text-base md:py-3">Checkout</div>
       {
         stage === 'address-section' ? (
           <CheckoutAddressSection />

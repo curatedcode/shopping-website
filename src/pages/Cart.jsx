@@ -45,27 +45,29 @@ function Cart(){
       <div className="flex flex-col px-4 py-8 gap-6 h-screen">
         { data?.length > 0 && data ? (
           <>
-          <div className="text-xl flex items-center font-semibold">
+          <div className="text-xl flex items-center font-semibold md:place-self-center">
             <span className="font-normal">Subtotal</span>
             <span className="text-sm ml-2">$</span>
             <span>{allItemsTotal}</span>
           </div>
-          <Link to="/checkout">
-            <button onClick={storeOrderTotal} className="bg-red-700 text-gray-200 py-2 px-6 rounded-md font-semibold w-full" type="button" aria-label="proceed-to-checkout" name="checkout">Proceed to checkout ({data.length} item{data.length > 1 ? 's':''})</button>
+          <Link to="/checkout" className="bg-red-700 text-gray-200 py-2 px-6 rounded-md font-semibold w-full md:w-fit md:px-16 place-self-center text-center">
+            <button onClick={storeOrderTotal} type="button" aria-label="proceed-to-checkout" name="checkout">Proceed to checkout ({data.length} item{data.length > 1 ? 's':''})</button>
           </Link>
           <div className="w-full border-b-2 border-gray-300 my-3"></div>
-          {data.map(item => 
-            <div className="grid px-2 grid-cols-2" key={uuidv4()}>
-              <CartItemCard data={item} />
-              <div className="text-xl my-6 border-2 border-gray-300 rounded-lg shadow-lg shadow-gray-300 flex justify-evenly w-fit items-center row-start-2">
-                <BiTrash className={`${ Number(item.quantity) > 1 ? 'hidden':''} mx-3`} onClick={()=>deleteItem.mutate(item.id)} title="delete" />
-                <button className={`${ Number(item.quantity) > 1 ? '':'hidden'} mx-3`} onClick={(e)=>handleChange(e, item.id, item.quantity)} name="decrease-quantity" type="button">-</button>
-                <span className="w-10 text-base text-center border-x-2 border-gray-300">{item.quantity}</span>
-                <button className="mx-3" onClick={(e)=>handleChange(e, item.id, item.quantity)} name="increase-quantity" type="button">+</button>
+          <div className="grid md:grid-cols-2">
+            {data.map(item => 
+              <div className="grid px-2 grid-cols-2 w-fit md:place-self-center" key={uuidv4()}>
+                <CartItemCard data={item} />
+                <div className="text-xl my-6 border-2 border-gray-300 rounded-lg shadow-lg shadow-gray-300 flex justify-evenly w-fit items-center row-start-2 md:my-10">
+                  <BiTrash className={`${ Number(item.quantity) > 1 ? 'hidden':''} mx-3`} onClick={()=>deleteItem.mutate(item.id)} title="delete" />
+                  <button className={`${ Number(item.quantity) > 1 ? '':'hidden'} mx-3`} onClick={(e)=>handleChange(e, item.id, item.quantity)} name="decrease-quantity" type="button">-</button>
+                  <span className="w-10 text-base text-center border-x-2 border-gray-300">{item.quantity}</span>
+                  <button className="mx-3" onClick={(e)=>handleChange(e, item.id, item.quantity)} name="increase-quantity" type="button">+</button>
+                </div>
+                <button className="my-6 border-2 border-gray-300 rounded-md shadow-lg shadow-gray-300 w-fit px-3 row-start-2 md:my-10" onClick={()=>deleteItem.mutate(item.id)} type={'button'} name={`delete ${item.title}`}>Delete</button>
               </div>
-              <button className="my-6 border-2 border-gray-300 rounded-md shadow-lg shadow-gray-300 w-fit px-3 row-start-2" onClick={()=>deleteItem.mutate(item.id)} type={'button'} name={`delete ${item.title}`}>Delete</button>
-            </div>
-          )}
+            )}
+          </div>
           </>
         ) : (
           <div className="font-semibold grid place-items-center gap-y-8">

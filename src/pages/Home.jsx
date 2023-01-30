@@ -19,8 +19,8 @@ function Home(){
         <div className="invisible w-0 md:visible md:w-auto"><HeroDesktop /></div>
         <div className="md:invisible md:w-0"><HeroMobile/></div>
       </div>
-      <div className="text-white bg-red-700 text-center py-1 text-lg">Trending Products</div>
-      <div className="grid justify-items-center my-6 gap-y-6">
+      <div className="text-white bg-red-700 text-center py-1 text-lg md:text-xl md:py-2">Trending Products</div>
+      <div className="grid justify-items-center my-6 gap-y-6 md:grid-cols-2 lg:grid-cols-3 lg:px-12 md:gap-y-20">
         {data.products.map(item => <ItemCard data={item} key={uuidv4()}/>)}
       </div>
     </div>

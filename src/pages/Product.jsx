@@ -42,14 +42,14 @@ function Product() {
   return(
     <>
     <div className="text-gray-200 bg-red-700 py-3 text-sm flex justify-center gap-2 items-center font-semibold mb-4"><GoLocation className="text-xl fill-gray-200" /> Select a location to see product availability</div>
-    <div className="h-screen px-4">
-      <div className="flex justify-between items-center text-sm">
+    <div className="h-screen px-4 md:grid md:place-items-center">
+      <div className="flex justify-between items-center text-sm md:w-1/3">
         <span>{data.title}</span>
         <span className="flex">{stars}</span>
       </div>
-      <div className="grid grid-cols-2 text-xl border-b-2 border-gray-300 pb-2 mb-4">
+      <div className="grid grid-cols-2 text-xl border-b-2 border-gray-300 pb-2 mb-4 md:w-fit">
         <button aria-label="slide-previous" className="row-start-2 place-self-center" name="slide-previous" type="button" onClick={()=>handleSlide('slide-previous')}><IoArrowBack /></button>
-        {data.images.map((img, index) => <img className={`${currentSlide === index ? '':'hidden'} col-span-full my-2`} src={img} alt={data.title} key={uuidv4()}></img>)}
+        {data.images.map((img, index) => <img className={`${currentSlide === index ? '':'hidden'} col-span-full my-2 md:w-96`} src={img} alt={data.title} key={uuidv4()}></img>)}
         <button aria-label="slide-forward" className="place-self-center" name="slide-forward" type="button" onClick={()=>handleSlide('slide-forward')}><IoArrowForward /></button>
       </div>
       <div className="grid gap-4">

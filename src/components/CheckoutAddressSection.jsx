@@ -30,12 +30,12 @@ function CheckoutAddressSection(){
     onSuccess: () => queryClient.invalidateQueries(['checkoutStage'])
   })
   return(
-    <div className="px-2 py-6 h-screen">
-      <h1 className="mb-8 text-center">Add your shipping address</h1>
+    <div className="px-2 py-6 h-screen md:grid md:auto-rows-min">
+      <h1 className="mb-8 text-center md:text-lg">Add your shipping address</h1>
       <form aria-label="form" onSubmit={(e)=>{
         e.preventDefault()
         handleSubmit.mutate(e)
-      }} className="grid">
+      }} className="grid md:w-fit md:place-self-center">
         <label htmlFor="country" className="font-bold ml-1">Country</label>
         <input title="Country" className="rounded-md border-2 border-gray-400 border-opacity-70 focus-within:outline-gray-500 px-2 py-2 mb-4" type="text" name="country" required value={country} onChange={(e)=>setCountry(e.target.value)}></input>
         
@@ -63,7 +63,7 @@ function CheckoutAddressSection(){
           <input title="ZIP Code" className="row-start-2 rounded-md border-2 border-gray-400 border-opacity-70 focus-within:outline-gray-500 px-2 pb-1 py-2" type="number" name="zip-code" required value={zipCode} onChange={(e)=>setZipCode(e.target.value)}></input>
         </div>
 
-        <button className="bg-red-700 text-gray-200 py-2 px-6 rounded-md font-semibold w-full" type="submit" onSubmit={e=>e.preventDefault()} name="submit">Use this address</button>
+        <button className="bg-red-700 text-gray-200 py-2 px-6 rounded-md font-semibold w-full md:w-fit md:px-16 place-self-center text-center" type="submit" onSubmit={e=>e.preventDefault()} name="submit">Use this address</button>
       </form>
     </div>
   )
