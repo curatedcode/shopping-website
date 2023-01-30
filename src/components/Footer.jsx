@@ -5,7 +5,7 @@ function Footer(){
   return(
     <>
     <Outlet />
-    <footer className="bg-red-700 sticky w-full">
+    <footer className="bg-red-700 sticky w-full mt-12">
       <ul className="flex justify-evenly py-4 text-sm text-white">
         <Link to='/contact'>
           <li>Contact Us</li>
