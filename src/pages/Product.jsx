@@ -20,12 +20,15 @@ function Product() {
     queryKey: [`product${params.id}`],
     queryFn: ()=>getProduct(params.id)
   })
+  const [isItemAddedToCart, setIsItemAddedToCart] = useState(false)
+
   useEffect(()=>{
     if(status === 'loading' || status === 'error') return
     setStars(colorReviewStars(data.rating))
     setIsInStock(Number(data.stock) > 0 ? true : false)
+    setTimeout(()=>{setIsItemAddedToCart(false)},4000)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[status])
+  },[status,isItemAddedToCart])
   if(status === 'loading') return <h1>Loading...</h1>
   if(status === 'error') return <h1>{JSON.stringify(error)}</h1>
 
@@ -68,7 +71,10 @@ function Product() {
           <input className="w-7 text-center border-r-2 border-gray-300 focus-within:outline-gray-500" name="quantity" type="number" value={quantity} onChange={(e)=>setQuantity(handleQuantityChange(e, quantity))} data-testid="quantity"></input>
           <button className="mx-3" name="increase-quantity" type="button" onClick={(e)=>setQuantity(handleQuantityChange(e, quantity))}>+</button>
         </div>
-        <button className="bg-red-700 text-gray-200 py-2 px-6 rounded-full font-semibold w-full" name="add-to-cart" type="button" onClick={()=>addItemToCart(data,quantity)}>Add to Cart</button>
+        <button className="bg-red-700 text-gray-200 py-2 px-6 rounded-full font-semibold w-full transition-all duration-300" onClick={()=>{
+          setIsItemAddedToCart(true)
+          addItemToCart(data,quantity)
+        }}  name="add-to-cart" type="button" >{isItemAddedToCart ? '+ Added to cart' : 'Add to Cart'}</button> 
       </div>
       <div className="grid grid-cols-2 gap-y-2">
         <span className="text-gray-500 font-semibold">Brand</span>
