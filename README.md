@@ -1,4 +1,4 @@
-# Resume Builder
+# Shopping Website
 
 This is a mock shopping website, featuring a homepage, product page, cart, and forms to submit shipping info
 
