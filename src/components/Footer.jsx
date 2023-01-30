@@ -10,8 +10,8 @@ function Footer(){
         <Link to='/contact'>
           <li>Contact Us</li>
         </Link>
-        <Link to='/privacy-policy'>
-          <li>Privacy Policy</li>
+        <Link to='/attribution'>
+          <li>Art Attribution</li>
         </Link>
         <Link to='/about'>
           <li>About Us</li>
